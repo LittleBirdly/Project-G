@@ -1,6 +1,20 @@
-import { _decorator, Component, Animation, KeyCode, log, Node, Vec2, Vec3, RigidBody, 
-    RigidBody2D, EventKeyboard, Contact2DType, input, Input, math, Collider2D } from 'cc';
-import{ RoleStateEnum, stateMachine } from './RoleStateEnum'; 
+import {
+    _decorator,
+    Animation,
+    Collider2D,
+    Component,
+    Contact2DType,
+    EventKeyboard,
+    input,
+    Input,
+    KeyCode,
+    log,
+    RigidBody2D,
+    Vec2,
+    Vec3
+} from 'cc';
+import {RoleStateEnum, stateMachine} from './RoleStateEnum';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('RoleController')
@@ -25,7 +39,7 @@ export class RoleController extends Component {
     private inputStore = {};
     private _jumpSpeed;
     private _jumpFlag;
-
+    private attackCombo;
 
     onLoad() {
         log('Load Role Property');
@@ -34,16 +48,28 @@ export class RoleController extends Component {
         this._runSpeedVec2 = new Vec2(0,0);
         this._jumpSpeed = 20;
         this._jumpFlag = true;
+        this.attackCombo = 0;
 
         log('Load Role Event');
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
 
+        this.animation = this.node.getComponent(Animation);
+        this.animation.on(Animation.EventType.FINISHED, (type, state) => {
+            if(state.name == 'attack' || state.name == 'attack2' || state.name == 'attack3') {
+                this.idle();
+                this.attackCombo = (this.attackCombo + 1 ) % 3
+            }
+        }, this);
+
+
         for(let roleCollider2D of this.node.getComponents(Collider2D)) {
             if(roleCollider2D.tag == 0) {
                 roleCollider2D.on(Contact2DType.BEGIN_CONTACT, () => {
-                    this._jumpFlag = true;
-                    this.idle();
+                    if(!this._jumpFlag) {
+                        this._jumpFlag = true;
+                        this.idle();
+                    }
                 }, this);
             }
         }
@@ -57,7 +83,6 @@ export class RoleController extends Component {
     }
 
     start() {
-        this.animation = this.getComponent(Animation);
     }
 
     update(deltaTime: number) {
@@ -68,23 +93,32 @@ export class RoleController extends Component {
         this._roleLvVec2 = this.node.getComponent(RigidBody2D).linearVelocity;
         this.node.getComponent(RigidBody2D).linearDamping = 5;
 
-        if(this.inputStore[KeyCode.ALT_LEFT] && this._jumpFlag) {
-            this._jumpFlag = false;
-            this._roleLvVec2.y = this._jumpSpeed;
-            this.jump();
-        } else if(this.inputStore[KeyCode.ARROW_LEFT]) {
-            this._runSpeedVec2.x = -1;
-            scaleV.x = -scaleV.x;
-            this.run()
-        } else if(this.inputStore[KeyCode.ARROW_RIGHT]) {
-            this._runSpeedVec2.x = 1;
-            this.run()
-        } else {
+        if (this.inputStore[KeyCode.KEY_A]) {
+             this.attack();
+        }
+
+        if(this._state == RoleStateEnum.Attack || this._state == RoleStateEnum.Attack2 || this._state == RoleStateEnum.Attack3) {
             this._runSpeedVec2.x = 0;
-            if(this._roleLvVec2.y < 0) {
-                this.fall();
+        } else {
+            this.attackCombo = 0;
+            if(this.inputStore[KeyCode.ALT_LEFT] && this._jumpFlag) {
+                this._jumpFlag = false;
+                this._roleLvVec2.y = this._jumpSpeed;
+                this.jump();
+            } else if(this.inputStore[KeyCode.ARROW_LEFT]) {
+                this._runSpeedVec2.x = -1;
+                scaleV.x = -scaleV.x;
+                this.run()
+            } else if(this.inputStore[KeyCode.ARROW_RIGHT]) {
+                this._runSpeedVec2.x = 1;
+                this.run()
             } else {
-                this.idle();
+                this._runSpeedVec2.x = 0;
+                if(this._roleLvVec2.y < 0) {
+                    this.fall();
+                } else {
+                    this.idle();
+                }
             }
         }
 
@@ -148,7 +182,16 @@ export class RoleController extends Component {
     }
 
     attack() {
-        if(!this.changeState(RoleStateEnum.Attack)) return;
+        let state = null;
+        if(this.attackCombo == 0) {
+            state = RoleStateEnum.Attack;
+        } else if(this.attackCombo == 1) {
+            state = RoleStateEnum.Attack2;
+        } else {
+            state = RoleStateEnum.Attack3;
+        }
+
+        if(!this.changeState(state)) return;
     }
 
     hurt() {

@@ -207,12 +207,12 @@
     "_type": 2,
     "_allowSleep": true,
     "_gravityScale": 1,
-    "_linearDamping": 0,
+    "_linearDamping": 5,
     "_angularDamping": 0,
     "_linearVelocity": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": 7.222852804515837e-41
     },
     "_angularVelocity": 0,
     "_fixedRotation": true,
@@ -308,10 +308,18 @@
       {
         "__uuid__": "fe8bda12-11ee-450d-84c2-f3cb5fe43e40",
         "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "327b84a2-01b6-435a-8ac9-3e9926b6e6e6",
+        "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "9a9891ab-03c9-4a38-9584-c0ae9ffba11e",
+        "__expectedType__": "cc.AnimationClip"
       }
     ],
     "_defaultClip": {
-      "__uuid__": "c3e11270-708d-4b2c-824c-5339a6775256",
+      "__uuid__": "cd4eb6bd-1d30-49e1-95f0-1c3e162b5bab",
       "__expectedType__": "cc.AnimationClip"
     },
     "_id": ""

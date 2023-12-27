@@ -9,7 +9,7 @@ export class BackgroundController extends Component {
         log('Physics System Initialize');
         let instance = PhysicsSystem2D.instance;
         instance.enable = true;
-        instance.debugDrawFlags = 1;
+        // instance.debugDrawFlags = 1;
         instance.gravity = new Vec2(0, -800);
     }
 

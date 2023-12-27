@@ -2,6 +2,8 @@
     
     Idle = "idle",
     Attack = "attack",
+    Attack2 = "attack2",
+    Attack3 = "attack3",
     Hurt = "hurt",
     Run = "run",
     Jump = "jump",
@@ -22,6 +24,12 @@ export var stateMachine = {
     },
     attack: {
         
+    },
+    attack2: {
+
+    },
+    attack3: {
+
     },
     hurt: {
 
