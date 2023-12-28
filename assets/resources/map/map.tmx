@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="40">
  <tileset firstgid="1" name="cave_background" tilewidth="16" tileheight="16" tilecount="385" columns="35">
   <image source="cave_background.png" width="560" height="176"/>
  </tileset>
  <tileset firstgid="386" name="grass_tileset" tilewidth="16" tileheight="16" tilecount="385" columns="35">
   <image source="grass_tileset.png" width="560" height="176"/>
  </tileset>
- <layer id="1" name="wall" width="80" height="45">
+ <imagelayer id="13" name="bg" repeatx="1" repeaty="1">
+  <image source="writeBg.png" width="100" height="100"/>
+ </imagelayer>
+ <layer id="1" name="wall" width="80" height="45" locked="1" offsetx="0.242424" offsety="0.363636">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
